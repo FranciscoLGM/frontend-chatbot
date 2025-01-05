@@ -76,7 +76,7 @@ const Chatbot = ({ open, onClose }) => {
         <Box
           ref={chatWindowRef}
           style={{
-            border: `1px solid ${theme.palette.divider}`,
+            // border: `1px solid ${theme.palette.divider}`,
             borderRadius: theme.shape.borderRadius,
             padding: theme.spacing(1),
             height: "380px",
