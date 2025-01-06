@@ -15,14 +15,8 @@ import ChatMessage from "./ChatMessage";
 import useChatbot from "../hooks/useChatbot";
 
 const Chatbot = ({ open, onClose }) => {
-  const {
-    messages,
-    input,
-    setInput,
-    handleSend,
-    error,
-    loading,
-  } = useChatbot();
+  const { messages, input, setInput, handleSend, error, loading } =
+    useChatbot();
   const chatWindowRef = useRef(null);
   const theme = useTheme();
 
@@ -107,6 +101,7 @@ const Chatbot = ({ open, onClose }) => {
             variant="contained"
             color="primary"
             style={{ marginLeft: theme.spacing(1) }}
+            disabled={!input.trim() || loading}
           >
             <SendIcon sx={{ fontSize: 25 }} />
           </Button>
