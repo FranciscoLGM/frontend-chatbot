@@ -1,13 +1,14 @@
 import React, { useEffect, useRef } from "react";
+import PropTypes from "prop-types";
 import {
   Container,
   TextField,
-  Button,
   Typography,
   Box,
   Dialog,
   useTheme,
   IconButton,
+  CircularProgress,
 } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import CloseIcon from "@mui/icons-material/Close";
@@ -29,10 +30,23 @@ const Chatbot = ({ open, onClose }) => {
   };
 
   useEffect(() => {
-    if (chatWindowRef.current) {
-      chatWindowRef.current.scrollTop = chatWindowRef.current.scrollHeight;
+    const chatWindow = chatWindowRef.current;
+    if (chatWindow) {
+      const isUserNearBottom =
+        chatWindow.scrollHeight - chatWindow.scrollTop <=
+        chatWindow.clientHeight + 50;
+      if (isUserNearBottom) {
+        chatWindow.scrollTop = chatWindow.scrollHeight;
+      }
     }
   }, [messages]);
+
+  useEffect(() => {
+    const chatWindow = chatWindowRef.current;
+    if (chatWindow) {
+      chatWindow.scrollTop = chatWindow.scrollHeight;
+    }
+  }, [input]);
 
   return (
     <Dialog
@@ -41,23 +55,31 @@ const Chatbot = ({ open, onClose }) => {
       fullWidth
       maxWidth="sm"
       PaperProps={{
-        style: {
+        sx: {
           position: "fixed",
           bottom: 16,
           right: 16,
-          margin: theme.spacing(2),
-          width: "333px",
-          borderRadius: 10,
+          m: 2,
+          width: "90%",
+          maxWidth: "400px",
+          borderRadius: 3,
         },
       }}
     >
       <Container
-        style={{
-          padding: theme.spacing(2),
-          backgroundColor: "#f5f5f5",
+        sx={{
+          p: 2,
+          backgroundColor: theme.palette.background.default,
+          borderRadius: 3,
+          boxShadow: 3,
         }}
       >
-        <Box display="flex" justifyContent="space-between" alignItems="center">
+        <Box
+          display="flex"
+          justifyContent="space-between"
+          alignItems="center"
+          mb={2}
+        >
           <Typography variant="h6" gutterBottom>
             Chatbot de Sushi
           </Typography>
@@ -69,20 +91,24 @@ const Chatbot = ({ open, onClose }) => {
         </Box>
         <Box
           ref={chatWindowRef}
-          style={{
-            // border: `1px solid ${theme.palette.divider}`,
-            borderRadius: theme.shape.borderRadius,
-            padding: theme.spacing(1),
+          sx={{
+            borderRadius: 2,
+            p: 1,
             height: "380px",
             overflowY: "auto",
             display: "flex",
             flexDirection: "column",
+            backgroundColor: "#f5f5f5",
           }}
         >
           {messages.map((msg, index) => (
             <ChatMessage key={index} message={msg} />
           ))}
-          {loading && <Typography color="primary">Cargando...</Typography>}
+          {loading && (
+            <Box display="flex" justifyContent="center" my={2}>
+              <CircularProgress color="primary" size={24} />
+            </Box>
+          )}
         </Box>
         {error && <Typography color="error">{error}</Typography>}
         <form
@@ -95,20 +121,34 @@ const Chatbot = ({ open, onClose }) => {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder="Escribe un mensaje..."
+            sx={{
+              backgroundColor: "#ffffff",
+              borderRadius: 2,
+            }}
           />
-          <Button
+          <IconButton
             type="submit"
-            variant="contained"
             color="primary"
-            style={{ marginLeft: theme.spacing(1) }}
+            sx={{
+              ml: 1,
+              color: "#7a628c",
+              "&:disabled": {
+                color: theme.palette.action.disabled,
+              },
+            }}
             disabled={!input.trim() || loading}
           >
-            <SendIcon sx={{ fontSize: 25 }} />
-          </Button>
+            <SendIcon sx={{ fontSize: 30 }} />
+          </IconButton>
         </form>
       </Container>
     </Dialog>
   );
+};
+
+Chatbot.propTypes = {
+  open: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
 };
 
 export default Chatbot;

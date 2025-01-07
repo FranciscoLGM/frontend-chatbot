@@ -13,19 +13,24 @@ const ChatButton = ({ onClick }) => {
       onClick={onClick}
       sx={{
         position: "fixed",
-        bottom: 32, // Usar valores de espaciado de Material-UI
+        bottom: 32,
         right: 32,
         zIndex: 1000,
-        width: 56, // Aumentar el tamaño
-        height: 56, // Aumentar el tamaño
-        boxShadow: "0 4px 20px rgba(0, 0, 0, 0.2)", // Sombra
-        transform: isHovered ? "scale(1.1)" : "scale(1)", // Animación de escala
-        transition: "transform 0.2s", // Transición para animación
+        width: 64,
+        height: 64,
+        boxShadow: "0 6px 20px rgba(0, 0, 0, 0.2)", // Ajuste de sombra
+        background: "linear-gradient(45deg, #7a628c, #4b2c7f)", // Fondo de gradiente
+        color: "#ffffff",
+        transform: isHovered ? "scale(1.15)" : "scale(1)", // Animación de escala más suave
+        transition: "transform 0.3s ease-in-out", // Transición más suave
+        "&:hover": {
+          background: "linear-gradient(45deg, #4b2c7f, #7a628c)", // Cambio de color en hover
+        },
       }}
-      onMouseEnter={() => setIsHovered(true)} // Cambiar estado al pasar el mouse
-      onMouseLeave={() => setIsHovered(false)} // Cambiar estado al salir el mouse
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
     >
-      <ChatIcon sx={{ fontSize: 25 }} /> {/* Aumentar el tamaño del icono */}
+      <ChatIcon sx={{ fontSize: 30 }} /> {/* Aumentar el tamaño del icono */}
     </Fab>
   );
 };
