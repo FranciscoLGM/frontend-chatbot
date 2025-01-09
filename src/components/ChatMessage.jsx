@@ -23,18 +23,18 @@ const ChatMessage = ({ message }) => {
       justifyContent={isUser ? "flex-end" : "flex-start"}
       mb={2}
       sx={{
-        maxWidth: "100%", // Asegurar que el contenedor no exceda el ancho
+        maxWidth: "100%",
       }}
     >
       <Paper
         sx={{
           padding: 2,
-          maxWidth: "80%", // Ajustar el ancho máximo del mensaje
+          maxWidth: "80%",
           background: isUser ? userBg : botBg,
           borderRadius: 2,
           boxShadow: 3,
           color: isUser ? userText : botText,
-          wordWrap: "break-word", // Ajustar el texto largo
+          wordWrap: "break-word",
         }}
       >
         <Typography variant="body1" color="inherit">
@@ -65,6 +65,38 @@ const ChatMessage = ({ message }) => {
             ))}
           </List>
         )}
+        {message.type === "confirmation" && (
+          <List dense>
+            {" "}
+            {/* Utilizar lista densa para reducir espacio entre ítems */}
+            {Object.entries(message.details).map(([key, value], index) => (
+              <ListItem key={index}>
+                <ListItemText
+                  primary={
+                    <Typography variant="body1" color="inherit">
+                      {key}
+                    </Typography>
+                  }
+                  secondary={
+                    <Typography variant="body2" color="textSecondary">
+                      {value}
+                    </Typography>
+                  }
+                />
+              </ListItem>
+            ))}
+            <ListItem>
+              <ListItemText
+                primary={
+                  <Typography variant="body1" color="inherit">
+                    Responde con 'confirmar' para proceder o 'cancelar' para
+                    modificar.
+                  </Typography>
+                }
+              />
+            </ListItem>
+          </List>
+        )}
       </Paper>
     </Box>
   );
@@ -81,6 +113,8 @@ ChatMessage.propTypes = {
         price: PropTypes.number.isRequired,
       })
     ),
+    type: PropTypes.string,
+    details: PropTypes.object,
   }).isRequired,
 };
 

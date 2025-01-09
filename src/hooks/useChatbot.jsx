@@ -13,7 +13,7 @@ const useChatbot = () => {
   const [loading, setLoading] = useState(false);
   const [isOrdering, setIsOrdering] = useState(false);
   const [isConfirming, setIsConfirming] = useState(false);
-  const [menu, setMenu] = useState([]);
+  const [menuItems, setMenuItems] = useState([]);
   const [orderDetails, setOrderDetails] = useState({
     name: "",
     quantity: null,
@@ -27,7 +27,7 @@ const useChatbot = () => {
     try {
       const response = await axios.get("http://localhost:5000/api/menu");
       if (response.data) {
-        setMenu(response.data.menu);
+        setMenuItems(response.data.menuItems);
       }
     } catch (error) {
       console.error("Error al obtener el menú:", error);
@@ -78,7 +78,7 @@ const useChatbot = () => {
 
   const handleMenuItemSelection = useCallback(
     (message) => {
-      const menuItem = menu.find(
+      const menuItem = menuItems.find(
         (item) => item.name.toLowerCase() === message.toLowerCase()
       );
       if (menuItem) {
@@ -104,7 +104,7 @@ const useChatbot = () => {
         ]);
       }
     },
-    [menu]
+    [menuItems]
   );
 
   const handleQuantitySelection = useCallback(
@@ -148,14 +148,17 @@ const useChatbot = () => {
         setMessages((prevMessages) => [
           ...prevMessages,
           {
-            text: `🔍 **Por favor, confirma tu pedido:**\n\n- **Producto:** ${
-              orderDetails.name
-            }\n- **Cantidad:** ${orderDetails.quantity}\n- **Total:** ${
-              orderDetails.price * orderDetails.quantity
-            }\n- **Cliente:** ${orderDetails.customerName}\n- **Contacto:** ${
-              orderDetails.customerContact
-            }\n- **Dirección:** ${message}\n\nResponde con 'confirmar' para proceder o 'cancelar' para modificar.`,
+            text: "🔍 Por favor, confirma tu pedido:",
+            details: {
+              Producto: orderDetails.name,
+              Cantidad: orderDetails.quantity,
+              Total: orderDetails.price * orderDetails.quantity,
+              Cliente: orderDetails.customerName,
+              Contacto: orderDetails.customerContact,
+              Dirección: message,
+            },
             sender: "bot",
+            type: "confirmation",
           },
         ]);
       }
@@ -223,18 +226,19 @@ const useChatbot = () => {
         message,
       });
       if (response.data) {
-        const { answer, menu } = response.data;
-        if (menu && Array.isArray(menu)) {
+        const { answer, menuItems } = response.data;
+        if (menuItems && Array.isArray(menuItems)) {
           setMessages((prevMessages) => [
             ...prevMessages,
             {
               text: "📋 Aquí tienes nuestro menú:",
-              options: menu.map((item) => ({
+              options: menuItems.map((item) => ({
                 name: item.name,
                 description: item.description,
                 price: item.price.toFixed(2),
               })),
               sender: "bot",
+              type: "menu",
             },
             {
               text: "¿Qué te apetece pedir hoy? 🤔 Escribe el nombre del plato que te gustaría ordenar.",
