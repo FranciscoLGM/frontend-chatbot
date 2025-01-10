@@ -54,10 +54,10 @@ const ChatMessage = ({ message }) => {
                   }
                   secondary={
                     <>
-                      <Typography variant="body2" color="textSecondary">
+                      <Typography variant="body2" color="#cacfd2">
                         {option.description}
                       </Typography>
-                      <Typography variant="body2" color="textSecondary">
+                      <Typography variant="body2" color="#cacfd2">
                         Precio: ${option.price}
                       </Typography>
                     </>
