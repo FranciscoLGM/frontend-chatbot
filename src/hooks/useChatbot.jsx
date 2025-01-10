@@ -285,8 +285,39 @@ const useChatbot = () => {
         "hacer un pedido",
         "realizar un pedido",
         "quiero pedir",
+        "quiero encargar",
+        "hacer una orden",
+        "encargar",
+        "me gustaría pedir",
+        "hacer un encargo",
+        "pedir comida",
+        "solicitar un pedido",
+        "hacer una compra",
+        "comprar",
+        "quisiera pedir",
+        "quisiera ordenar",
+        "quisiera encargar",
+        "puedo pedir",
+        "puedo ordenar",
+        "puedo hacer un pedido",
+        "me gustaría ordenar",
+        "deseo hacer un pedido",
+        "deseo ordenar",
+        "deseo pedir",
+        "deseo encargar",
+        "quisiera hacer un pedido",
+        "quisiera comprar",
+        "quiero reservar",
+        "hacer una reserva",
+        "quiero hacer una reserva",
+        "me gustaría reservar",
+        "quisiera reservar",
       ];
+
+      // Crear una expresión regular a partir del array de palabras clave
       const orderRegex = new RegExp(orderKeywords.join("|"), "i");
+
+      // Verificar si el mensaje coincide con alguna de las palabras clave
       if (orderRegex.test(message)) {
         setIsOrdering(true);
         setMessages((prevMessages) => [
