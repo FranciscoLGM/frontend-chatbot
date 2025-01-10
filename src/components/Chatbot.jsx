@@ -21,6 +21,7 @@ const Chatbot = ({ open, onClose }) => {
   const chatWindowRef = useRef(null);
   const theme = useTheme();
 
+  // Manejar el envío del formulario
   const handleSubmit = (e) => {
     e.preventDefault();
     if (input.trim()) {
@@ -29,6 +30,7 @@ const Chatbot = ({ open, onClose }) => {
     }
   };
 
+  // Auto scroll al recibir nuevos mensajes
   useEffect(() => {
     const chatWindow = chatWindowRef.current;
     if (chatWindow) {
@@ -41,6 +43,7 @@ const Chatbot = ({ open, onClose }) => {
     }
   }, [messages]);
 
+  // Auto scroll al cambiar el input
   useEffect(() => {
     const chatWindow = chatWindowRef.current;
     if (chatWindow) {
@@ -81,7 +84,7 @@ const Chatbot = ({ open, onClose }) => {
           mb={2}
         >
           <Typography variant="h6" gutterBottom>
-            Chatbot de Sushi
+            SushiBot
           </Typography>
           <IconButton onClick={onClose} aria-label="cerrar">
             <CloseIcon

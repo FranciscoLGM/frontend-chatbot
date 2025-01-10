@@ -12,6 +12,7 @@ import {
 const ChatMessage = ({ message }) => {
   const isUser = message.sender === "user";
 
+  // Estilos para mensajes del usuario y del bot
   const userBg = "linear-gradient(45deg, #f5f5f5, #e0e0e0)";
   const userText = "#424242";
   const botBg = "linear-gradient(45deg, #7a628c, #4b2c7f)";
@@ -40,6 +41,7 @@ const ChatMessage = ({ message }) => {
         <Typography variant="body1" color="inherit">
           {message.text}
         </Typography>
+
         {message.options && (
           <List>
             {message.options.map((option, index) => (
@@ -65,9 +67,9 @@ const ChatMessage = ({ message }) => {
             ))}
           </List>
         )}
+
         {message.type === "confirmation" && (
           <List dense>
-            {" "}
             {/* Utilizar lista densa para reducir espacio entre ítems */}
             {Object.entries(message.details).map(([key, value], index) => (
               <ListItem key={index}>

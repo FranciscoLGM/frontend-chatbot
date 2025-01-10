@@ -4,7 +4,7 @@ import axios from "axios";
 const useChatbot = () => {
   const [messages, setMessages] = useState([
     {
-      text: "¡Bienvenido al chat! ¿En qué puedo ayudarte hoy? 😊",
+      text: "¡Bienvenido al chat! 🎉 ¿En qué puedo ayudarte hoy? Estoy aquí para asistirte con cualquier consulta o pedido. 😊",
       sender: "bot",
     },
   ]);
